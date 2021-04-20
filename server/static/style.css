@@ -1,5 +1,12 @@
+body {
+    padding: 0;
+    margin: 0;
+}
+
 #sidebar {
     font-family: 'Roboto Mono', monospace;
+    display: flex;
+    flex-direction: column;
     height: 100%;
     width: 380px;
     position: fixed;
@@ -20,6 +27,7 @@
 #sidebar-title {
     text-align: center;
     margin: 5px;
+    flex: 0 0 auto;
 }
 
 #sidebar-title > span {
@@ -33,6 +41,7 @@
 
 #search-container {
     text-align: center;
+    flex: 0 1 auto;
 }
 
 #search {
@@ -57,6 +66,8 @@
 }
 
 #search-results {
+    overflow-y: scroll;
+    flex: 1 1 auto;
     padding-left: 10px;
     padding-right: 10px;
 }
@@ -150,4 +161,23 @@
     #burger {
         left: 10px;
     }
+}
+
+::-webkit-scrollbar {
+    width: 18px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 18px;
+    border: 6px solid transparent;
+    background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #bbb;
 }
