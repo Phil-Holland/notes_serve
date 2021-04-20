@@ -18,14 +18,16 @@
 }
 
 #sidebar-title {
-    font-size: 2em;
     text-align: center;
-    margin: 10px;
-    padding-bottom: 15px;
-    border-bottom: 2px dashed #F0F0F0;
+    margin: 5px;
 }
 
-#sidebar-title:hover {
+#sidebar-title > h1 {
+    font-size: 2em;
+    margin: 0;
+}
+
+#sidebar-title > h1:hover {
     cursor: pointer;
 }
 
@@ -39,7 +41,7 @@
     font-size: 1em;
     text-align: center;
     width: 90%;
-    margin: 10px 10px 20px 10px;
+    margin: 10px 10px 30px 10px;
     padding: 10px;
     border: none;
     box-shadow: none;

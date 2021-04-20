@@ -89,10 +89,9 @@ $(function () {
         toggle_sidebar();
     });
 
-    $("#sidebar-title").click(function () {
+    $("#sidebar-title > h1").click(function () {
         $("#search").val("");
         do_search("");
-        $("#content-html").attr("srcdoc", "");
     });
 
     do_search("");
