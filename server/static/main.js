@@ -32,14 +32,19 @@ var render_file = function (file) {
 var do_search = function (term) {
     if (term == "") term = "*";
 
-    $.post("/search", term, function (data) {
-        if ("responses" in data && data["responses"].length > 0) {
-            // remove all note entries in list
-            $("#search-results").empty();
+    $.ajax("/search", {
+        type: "POST",
+        data: JSON.stringify({ "search_term": term }),
+        contentType: "application/json",
+        success: function (data) {
+            if ("responses" in data && data["responses"].length > 0) {
+                // remove all note entries in list
+                $("#search-results").empty();
 
-            data["responses"].forEach(note => {
-                make_note_entry(note.file, note.title, note.tags);
-            });
+                data["responses"].forEach(note => {
+                    make_note_entry(note.file, note.title, note.tags);
+                });
+            }
         }
     });
 }

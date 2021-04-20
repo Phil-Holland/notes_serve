@@ -84,8 +84,13 @@ fn notes(cli_args_state: State<CliArguments>, note: PathBuf) -> Option<NamedFile
     NamedFile::open(Path::new(&cli_args_state.notes_dir_path).join(note)).ok()
 }
 
-#[post("/search", data = "<term>")]
-fn search(indexer: State<Indexer>, term: String) -> Json<SearchResponse> {
+#[derive(Serialize, Deserialize)]
+struct SearchRequest {
+    search_term: String,
+}
+
+#[post("/search", format = "json", data = "<request>")]
+fn search(indexer: State<Indexer>, request: Json<SearchRequest>) -> Json<SearchResponse> {
     let searcher = indexer.reader.searcher();
     let query_parser = QueryParser::for_index(
         &indexer.index,
@@ -97,7 +102,7 @@ fn search(indexer: State<Indexer>, term: String) -> Json<SearchResponse> {
         ],
     );
 
-    let query = match query_parser.parse_query(term.as_str()) {
+    let query = match query_parser.parse_query(request.search_term.as_str()) {
         Ok(query) => query,
         Err(_) => return Json(SearchResponse::default()),
     };

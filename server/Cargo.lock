@@ -966,7 +966,6 @@ dependencies = [
  "serde",
  "serde_json",
  "tantivy",
- "tempfile",
 ]
 
 [[package]]
