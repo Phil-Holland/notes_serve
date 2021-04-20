@@ -12,14 +12,18 @@ var make_note_entry = function (file, title, tags) {
 }
 
 var render_file = function (file) {
-    var is_mobile = window.matchMedia("only screen and (max-width: 760px)").matches;
-
     $.post("/notes/" + file, function (content) {
         // don't do anything if we get an empty response
         if (!content) return;
 
         content = content.replace("<head>", "<head><base target=\"_blank\">");
         $("#content-html").attr("srcdoc", content);
+
+        // if we're on mobile, hide the sidebar
+        const is_mobile = window.matchMedia("only screen and (max-width: 760px)").matches;
+        if (is_mobile) {
+            toggle_sidebar();
+        }
 
         // fix page links
         setTimeout(function () {
@@ -30,11 +34,6 @@ var render_file = function (file) {
                     $("#content-html").contents().find(link_id).get(0).scrollIntoView();
                 }
             });
-
-            // if we're on mobile, hide the sidebar
-            if (is_mobile) {
-                toggle_sidebar();
-            }
         }, 100);
     });
 }
