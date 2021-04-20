@@ -92,7 +92,7 @@ struct SearchRequest {
 #[post("/search", format = "json", data = "<request>")]
 fn search(indexer: State<Indexer>, request: Json<SearchRequest>) -> Json<SearchResponse> {
     let searcher = indexer.reader.searcher();
-    let query_parser = QueryParser::for_index(
+    let mut query_parser = QueryParser::for_index(
         &indexer.index,
         vec![
             indexer.file_field,
@@ -101,6 +101,7 @@ fn search(indexer: State<Indexer>, request: Json<SearchRequest>) -> Json<SearchR
             indexer.content_field,
         ],
     );
+    query_parser.set_conjunction_by_default();
 
     let query = match query_parser.parse_query(request.search_term.as_str()) {
         Ok(query) => query,
