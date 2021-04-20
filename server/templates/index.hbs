@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+
+    <title>notes</title>
+</head>
+
+<body>
+    <div id="sidebar">
+        <div id="sidebar-title">
+            notes
+        </div>
+        <div id="search-container">
+            <input type="search" name="search" id="search" placeholder="search" autocomplete="off">
+        </div>
+        <div id="search-results"></div>
+    </div>
+    <div id="content">
+        <iframe id="content-html"></iframe>
+    </div>
+
+    <script src="/static/main.js"></script>
+</body>
+
+</html>

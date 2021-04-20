@@ -1,0 +1,16 @@
+{
+  "name": "notes_serve_renderer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "process_dir.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Philip Holland",
+  "license": "ISC",
+  "dependencies": {
+    "@shd101wyy/mume": "^0.6.6",
+    "remove-markdown": "^0.3.0",
+    "yaml": "^1.10.2"
+  }
+}
