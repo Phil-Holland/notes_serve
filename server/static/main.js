@@ -35,7 +35,7 @@ var render_file = function (file) {
             if (is_mobile) {
                 toggle_sidebar();
             }
-        }, 10);
+        }, 100);
     });
 }
 
