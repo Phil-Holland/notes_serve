@@ -89,5 +89,11 @@ $(function () {
         toggle_sidebar();
     });
 
+    $("#sidebar-title").click(function () {
+        $("#search").val("");
+        do_search("");
+        $("#content-html").attr("srcdoc", "");
+    });
+
     do_search("");
 });

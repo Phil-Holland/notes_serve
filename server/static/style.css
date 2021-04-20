@@ -25,6 +25,10 @@
     border-bottom: 2px dashed #F0F0F0;
 }
 
+#sidebar-title:hover {
+    cursor: pointer;
+}
+
 #search-container {
     text-align: center;
 }
