@@ -9,14 +9,19 @@
     background-color: #222;
     overflow-x: hidden;
     color: #F0F0F0;
+
+    transition: left 100ms ease-in-out;
 }
 
+#sidebar.hidden {
+    left: -380px;
+}
 
 #sidebar-title {
     font-size: 2em;
     text-align: center;
     margin: 10px;
-    padding-bottom: 10px;
+    padding-bottom: 15px;
     border-bottom: 2px dashed #F0F0F0;
 }
 
@@ -36,6 +41,13 @@
     box-shadow: none;
     background: #FFF;
     border-radius: 15px;
+    border-width: 2px;
+    border-style: solid;
+
+    -webkit-transition: border 100ms ease-in-out;
+    -moz-transition: border 100ms ease-in-out;
+    -o-transition: border 100ms ease-in-out;
+    transition: border 100ms ease-in-out;
 }
 
 #search-results {
@@ -62,11 +74,50 @@
     color: #BBB;
 }
 
+#burger {
+    position: fixed;
+    left: 340px;
+    top: 8px;
+    z-index: 99999;
+    transition: left 100ms ease-in-out;
+}
+
+#burger.hidden {
+    left: 10px;
+}
+
+#burger:hover {
+    cursor: pointer;
+}
+
+.burger-line {
+    width: 25px;
+    height: 3px;
+    background-color: #FFF;
+    opacity: 0.5;
+    margin: 5px 0;
+    transition: opacity 250ms ease-in-out;
+    transition: background-color 250ms ease-in-out;
+}
+
+#burger.hidden > .burger-line {
+    background-color: #222;
+}
+
+#burger:hover > .burger-line {
+    opacity: 1.0;
+}
+
 #content {
     height: 100%;
 	width: calc(100% - 380px);
     left: 380px;
     position: fixed;
+}
+
+#content.hidden {
+    left: 0;
+    width: 100%;
 }
 
 #content-html {
@@ -76,11 +127,21 @@
     border: none;
 }
 
-@media screen and (max-height: 450px) {
+@media only screen and (max-width: 760px) {
     #sidebar {
-        padding-top: 15px;
+        width: 100%;
     }
-    #sidebar a {
-        font-size: 18px;
+
+    #sidebar.hidden {
+        left: -100%;
+    }
+
+    #content {
+        width: 100%;
+        left: 0;
+    }
+
+    #burger {
+        left: 10px;
     }
 }

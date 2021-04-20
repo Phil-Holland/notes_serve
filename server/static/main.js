@@ -1,3 +1,5 @@
+var sidebar_hidden = false;
+
 var make_note_entry = function (file, title, tags) {
     var entry = $(
         "<div class='search-result' onclick='render_file(\"" + file + "\")'>" +
@@ -10,7 +12,10 @@ var make_note_entry = function (file, title, tags) {
 }
 
 var render_file = function (file) {
+    var is_mobile = window.matchMedia("only screen and (max-width: 760px)").matches;
+
     $.post("/notes/" + file, function (content) {
+        // don't do anything if we get an empty response
         if (!content) return;
 
         content = content.replace("<head>", "<head><base target=\"_blank\">");
@@ -25,11 +30,17 @@ var render_file = function (file) {
                     $("#content-html").contents().find(link_id).get(0).scrollIntoView();
                 }
             });
+
+            // if we're on mobile, hide the sidebar
+            if (is_mobile) {
+                toggle_sidebar();
+            }
         }, 10);
     });
 }
 
 var do_search = function (term) {
+    // if the search term is empty, do a search for everything
     if (term == "") term = "*";
 
     $.ajax("/search", {
@@ -41,17 +52,42 @@ var do_search = function (term) {
                 // remove all note entries in list
                 $("#search-results").empty();
 
+                // add one entry for each response
                 data["responses"].forEach(note => {
                     make_note_entry(note.file, note.title, note.tags);
                 });
+
+                $("#search").css("border-color", "white");
+            } else {
+                $("#search").css("border-color", "#ff4a4a");
             }
         }
     });
 }
 
+var toggle_sidebar = function () {
+    if (sidebar_hidden) {
+        // reveal sidebar
+        $("#sidebar").removeClass("hidden");
+        $("#burger").removeClass("hidden");
+        $("#content").removeClass("hidden");
+    } else {
+        // hide sidebar
+        $("#sidebar").addClass("hidden");
+        $("#burger").addClass("hidden");
+        $("#content").addClass("hidden");
+    }
+
+    sidebar_hidden = !sidebar_hidden;
+}
+
 $(function () {
     $("#search").on("input", function () {
         do_search($("#search").val());
+    });
+
+    $("#burger").click(function () {
+        toggle_sidebar();
     });
 
     do_search("");
