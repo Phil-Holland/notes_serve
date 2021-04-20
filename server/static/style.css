@@ -22,12 +22,12 @@
     margin: 5px;
 }
 
-#sidebar-title > h1 {
+#sidebar-title > span {
     font-size: 2em;
     margin: 0;
 }
 
-#sidebar-title > h1:hover {
+#sidebar-title > span:hover {
     cursor: pointer;
 }
 

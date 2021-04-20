@@ -89,7 +89,7 @@ $(function () {
         toggle_sidebar();
     });
 
-    $("#sidebar-title > h1").click(function () {
+    $("#sidebar-title > span").click(function () {
         $("#search").val("");
         do_search("");
     });
