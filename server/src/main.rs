@@ -79,6 +79,11 @@ fn index() -> Template {
     Template::render("index", ())
 }
 
+#[get("/favicon.ico")]
+fn favicon() -> Option<NamedFile> {
+    NamedFile::open("static/favicon.ico").ok()
+}
+
 #[post("/notes/<note..>")]
 fn notes(cli_args_state: State<CliArguments>, note: PathBuf) -> Option<NamedFile> {
     NamedFile::open(Path::new(&cli_args_state.notes_dir_path).join(note)).ok()
@@ -241,7 +246,7 @@ fn main() {
         .attach(Template::fairing())
         .manage(cli_args)
         .manage(indexer)
-        .mount("/", routes![index, notes, search])
+        .mount("/", routes![index, notes, search, favicon])
         .mount(
             "/static",
             StaticFiles::from(concat!(env!("CARGO_MANIFEST_DIR"), "/static")),
