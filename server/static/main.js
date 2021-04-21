@@ -2,11 +2,15 @@ var sidebar_hidden = false;
 
 var make_note_entry = function (file, title, tags) {
     var entry = $(
-        "<div class='search-result' onclick='render_file(\"" + file + "\")'>" +
+        "<div class='search-result'>" +
         "<div class='search-result-tags'>" + tags.join(", ") + "</div>" +
         "<div class='search-result-title'>" + title + "</div>" +
         "</div>"
     );
+
+    $(entry).click(function () {
+        render_file(file);
+    });
 
     $("#search-results").append(entry);
 }
