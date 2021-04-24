@@ -1,0 +1,9 @@
+language: rust
+rust:
+  - nightly
+jobs:
+  fast_finish: true
+script:
+  - cd server
+  - cargo build --verbose
+  - cargo test --verbose
