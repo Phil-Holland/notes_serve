@@ -133,3 +133,105 @@ fn field_to_string_vec(doc: &Document, field: Field) -> Vec<String> {
         .map(|field| String::from(field.text().unwrap_or_default()))
         .collect()
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use tempfile::tempdir;
+
+    fn dummy_note_data_vec() -> Vec<NoteData> {
+        vec![
+            NoteData {
+                file: String::from("file1.md"),
+                title: String::from("file 1"),
+                tags: vec![String::from("first_tag"), String::from("second_tag")],
+                content: String::from(
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod \
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, \
+                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo \
+                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse \
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non \
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                ),
+            },
+            NoteData {
+                file: String::from("file2.md"),
+                title: String::from("file 2"),
+                tags: vec![String::from("first_tag")],
+                content: String::from(
+                    "Pellentesque sed ex vel elit vestibulum euismod. In non ipsum in turpis \
+                    sollicitudin aliquet sit amet vitae ante. Vestibulum nec mauris sit amet \
+                    quam varius eleifend. Donec porttitor risus ante, et pulvinar lorem mollis \
+                    in. Integer aliquet finibus leo sollicitudin finibus. Etiam dignissim arcu \
+                    tempor, commodo magna molestie, malesuada leo.",
+                ),
+            },
+        ]
+    }
+
+    #[test]
+    fn it_builds() {
+        let index_dir = tempdir().unwrap();
+        let engine = SearchEngine::build(dummy_note_data_vec(), index_dir.path().to_str().unwrap());
+        assert!(engine.is_ok());
+    }
+
+    #[test]
+    fn it_searches_filenames() {
+        let index_dir = tempdir().unwrap();
+        let engine =
+            SearchEngine::build(dummy_note_data_vec(), index_dir.path().to_str().unwrap()).unwrap();
+
+        let search_result = engine.search("file:file1.md", 10).unwrap();
+        assert_eq!(search_result.len(), 1);
+        assert_eq!(search_result.get(0).unwrap().file, "file1.md");
+
+        let search_result = engine.search("file:file2.md", 10).unwrap();
+        assert_eq!(search_result.len(), 1);
+        assert_eq!(search_result.get(0).unwrap().file, "file2.md");
+    }
+
+    #[test]
+    fn it_searches_titles() {
+        let index_dir = tempdir().unwrap();
+        let engine =
+            SearchEngine::build(dummy_note_data_vec(), index_dir.path().to_str().unwrap()).unwrap();
+
+        let search_result = engine.search("title:1", 10).unwrap();
+        assert_eq!(search_result.len(), 1);
+        assert_eq!(search_result.get(0).unwrap().file, "file1.md");
+
+        let search_result = engine.search("title:2", 10).unwrap();
+        assert_eq!(search_result.len(), 1);
+        assert_eq!(search_result.get(0).unwrap().file, "file2.md");
+    }
+
+    #[test]
+    fn it_searches_tags() {
+        let index_dir = tempdir().unwrap();
+        let engine =
+            SearchEngine::build(dummy_note_data_vec(), index_dir.path().to_str().unwrap()).unwrap();
+
+        let search_result = engine.search("tags:first_tag", 10).unwrap();
+        assert_eq!(search_result.len(), 2);
+
+        let search_result = engine.search("tags:second_tag", 10).unwrap();
+        assert_eq!(search_result.len(), 1);
+        assert_eq!(search_result.get(0).unwrap().file, "file1.md");
+    }
+
+    #[test]
+    fn it_searches_all() {
+        let index_dir = tempdir().unwrap();
+        let engine =
+            SearchEngine::build(dummy_note_data_vec(), index_dir.path().to_str().unwrap()).unwrap();
+
+        let search_result = engine.search("adipiscing", 10).unwrap();
+        assert_eq!(search_result.len(), 1);
+        assert_eq!(search_result.get(0).unwrap().file, "file1.md");
+
+        let search_result = engine.search("vestibulum", 10).unwrap();
+        assert_eq!(search_result.len(), 1);
+        assert_eq!(search_result.get(0).unwrap().file, "file2.md");
+    }
+}

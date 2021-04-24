@@ -63,7 +63,7 @@ fn main() {
         .expect("ERROR: Unable to parse summary JSON file");
 
     // Build search engine
-    let engine = SearchEngine::build(note_data_vec, "./index")
+    let engine = SearchEngine::build(note_data_vec, "./.index")
         .expect("ERROR: could not build full-text search index");
 
     // Build and launch rocket server
