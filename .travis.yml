@@ -5,5 +5,7 @@ jobs:
   fast_finish: true
 script:
   - cd server
-  - cargo build --verbose
+  - cargo install clippy
+  - cargo build
   - cargo test --verbose
+  - cargo clippy
